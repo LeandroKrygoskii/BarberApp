@@ -19,7 +19,7 @@ import PersonIcon from '../../images/person.svg';
 
 import api from '../../services/api.js';
 
-export default function SignIn() {
+export default function SignUp() {
   
   const navigation = useNavigation();
   const [nameField, setNameField] = useState('');

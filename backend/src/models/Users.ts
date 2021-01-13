@@ -1,4 +1,5 @@
-import { Entity , Column , PrimaryGeneratedColumn , BeforeInsert, BeforeUpdate} from 'typeorm';
+import { Entity , Column , PrimaryGeneratedColumn , BeforeInsert, BeforeUpdate, OneToMany, JoinColumn} from 'typeorm';
+import Image from './Image';
 import bcrypt from 'bcryptjs';
 
 @Entity('users')
@@ -14,6 +15,9 @@ export default class Users {
 
  @Column()
  password: string;
+ 
+ 
+
 
  @BeforeInsert()
  @BeforeUpdate()

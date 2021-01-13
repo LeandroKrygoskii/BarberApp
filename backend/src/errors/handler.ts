@@ -5,7 +5,7 @@ import { ValidationError } from 'yup';
 
 
 
-interface ValidationErrors{
+interface ValidationErrors {
     [key: string]: string[];
 }
 
@@ -14,6 +14,13 @@ interface ValidationErrors{
 
 const errorHandler: ErrorRequestHandler = (error, request, response, next) =>{
    
+    if(error instanceof ValidationError) {
+        let errors: ValidationErrors = {};
+
+       // error.inner.forEach(err => {
+       //     errors[err.path] = err.errors;
+       // });
+    }
     console.log(error)
 
     return response.status(500).json({message: 'Internal Server Error'});

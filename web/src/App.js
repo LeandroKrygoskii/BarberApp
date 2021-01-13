@@ -1,35 +1,57 @@
-import React , {useState , FormEvent} from 'react';
-import { Input, InputArea , Btn } from './style.js';
+import React , {useState , FormEvent } from 'react';
+import { Input, InputArea , Btn } from './styles/styleCad.js';
 import './App.css';
 
-import Api from './API';
 import api from './services/api';
 
 function App() {
 
-
   const [name , setName] = useState('');
-  const [email , setEmail] = useState('');
-  const [password , setPassword] = useState('');
+  const [stars , setStar] = useState(0);
+  const [images, setImages]= useState([]);
+
+  
   
   const handleClick = async (e) =>{
-    e.preventDefault();
-   
-    let res = await api.cadastro(name, email, password)
-    
-    console.log(res)
+    e.preventDefault();  
   } 
- 
 
+
+  function handleSelectImage(event){
+    console.log(event)
+    if(!event.target.files){
+        return;
+    }
     
-  
+    //const selectedImages = Array.from(event.target.files)
+
+    setImages(event.target.files);
+  }
+
+ async function handleCreateBarber(event) {
+     
+     const data = new FormData();
+
+     data.append('name', name);
+     data.append('stars', stars);
+     
+     Array.from(images).forEach(image => {
+       data.append('images', image)
+     });
+     
+
+    await api.post('barber', data)
+
+    alert('cadastro com sucesso')
+  }
+
+
+  console.log(setImages)
+    console.log(images)
 
   return (
     <div className="App">
-      
-
-      
-      <InputArea onSubmit={handleClick}>
+         <InputArea onSubmit={handleClick}>
          <Input
          type="text"
           placeholder={"nome"}
@@ -40,26 +62,27 @@ function App() {
 
         <Input
           type="text"
-          placeholder={"email"}
+          placeholder={"nota"}
           placeholderTextColor="#000"          
-          onChange={event => setEmail(event.target.value)}
-          value={email}
+          onChange={event => setStar(event.target.value)}
+          value={stars}
          />
-
 
         <Input
-          type="text"
-          placeholder={"password"}
-          placeholderTextColor="#000"       
-          onChange={event => setPassword(event.target.value)}
-          value={password}
-         />
+         type="file"
+         multiple
+         onChange={handleSelectImage}
+         
+        />
 
-         <Btn  type="submit">
+         <Btn 
+          type="submit"
+          onClick={handleCreateBarber}
+          >
              Confirmar
          </Btn>
       </InputArea>
-     
+        
     </div>
   );
 }
